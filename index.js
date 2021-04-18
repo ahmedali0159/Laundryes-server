@@ -35,7 +35,7 @@ client.connect(err => {
      serviceCollection.find({_id: ObjectId(req.params.id)})
 
        .toArray (( err, items) => {
-         res.send(items[0]);
+         res.send(items);
         console.log(items);
        
       })
