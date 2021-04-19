@@ -21,6 +21,24 @@ client.connect(err => {
     console.log('connection error', err);
     const serviceCollection = client.db("laundryes").collection("services");
     const reviewCollection = client.db("laundryes").collection("reviews");
+    const orderCollection = client.db("laundryes").collection("orders");
+
+    app.post('/addorders', (req, res ) => {
+      const newOrdered = req.body;
+      orderCollection.insertOne(newOrdered)
+      .then(result => {
+        console.log('inserted count', result.insertedCount);
+        res.send(result.insertedCount > 0);
+      })
+    })
+
+    app.get('/orders', (req, res)=> {
+      orderCollection.find({})
+      .toArray(( err, items) => {
+        res.send(items)
+        console.log(items);
+      })
+    })
 
     app.get('/services', (req, res) => {
       serviceCollection.find()
@@ -68,6 +86,14 @@ client.connect(err => {
           res.send(result.insertedCount > 0)
         })
       })
+
+      app.delete('/deleteService/:id', (req, res) => {
+        serviceCollection.deleteOne({_id: ObjectId(req.params.id)})
+        .then(( err, result)=> {
+           console.log(result);
+        })
+        
+     })
 
 
      
