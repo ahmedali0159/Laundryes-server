@@ -31,6 +31,24 @@ client.connect((err) => {
   const serviceCollection = client.db("laundryes").collection("services");
   const reviewCollection = client.db("laundryes").collection("reviews");
   const orderCollection = client.db("laundryes").collection("orders");
+  const adminCollection = client.db("laundryes").collection("admins");
+
+  app.post('/isAdmin', (req, res) => {
+    console.log(req.body);
+    adminCollection.find(req.body)
+        .toArray((err, admin ) => {
+            res.send(admin.length > 0);
+        })
+})
+
+app.post("/makeAdmin", (req, res) => {
+  console.log(req.body);
+  const newAdmin = req.body;
+  adminCollection.insertOne(newAdmin).then((result) => {
+    console.log("inserted count", result.insertedCount);
+    res.send(result.insertedCount > 0);
+  });
+});
 
   app.post("/addorders", (req, res) => {
     const newOrdered = req.body;
