@@ -8,7 +8,7 @@ const admin = require("firebase-admin");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
 
-const serviceAccount = require("./laundryes-firebase-adminsdk-ihcxw-1c470d8fa4.json");
+const serviceAccount = require("./configs/laundryes-firebase-adminsdk-ihcxw-1c470d8fa4.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
